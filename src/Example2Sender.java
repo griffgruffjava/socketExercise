@@ -29,18 +29,26 @@ public class Example2Sender {
 /**/
                 System.out.println("Connection request granted to port: " + acceptorPort);
                 // get an input stream for reading from the data socket
-                InputStream inStream = mySocket.getInputStream();
+
+                //REMOVE THIS CODE FOR QUESTION 4
+                /*InputStream inStream = mySocket.getInputStream();
                 // create a BufferedReader object for text line input
                 BufferedReader socketInput =
                         new BufferedReader(new InputStreamReader(inStream));
-/**/
-                System.out.println("waiting to read");
+
+                        System.out.println("waiting to read");
                 // read a line from the data stream
-                String message = socketInput.readLine();
+                String message = socketInput.readLine();*/
+
+                MyStreamSocket myStreamSocket = new MyStreamSocket(args[0], acceptorPort);
+
+                String message = myStreamSocket.receiveMessage();
+/**/
+
 /**/
                 System.out.println("Message received:");
                 System.out.println("\t" + message);
-                mySocket.close();
+                myStreamSocket.close();
 /**/
                 System.out.println("data socket closed");
             } // end try

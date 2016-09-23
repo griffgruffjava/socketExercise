@@ -1,5 +1,8 @@
-import java.io.*;
-import java.net.*;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * This example illustrates the basic syntax for stream-mode
@@ -25,17 +28,20 @@ public class Example2Receiver {
                 String message = args[1];
                 // instantiates a socket for accepting connection
                 ServerSocket connectionSocket = new ServerSocket(portNo);
-				connectionSocket.setSoTimeout(5000);
+                connectionSocket.setSoTimeout(5000);
 /**/
                 System.out.println("now ready accept a connection on port: " + portNo);
                 // wait to accept a connecion request, at which
                 //  time a data socket is created
                 Socket dataSocket = connectionSocket.accept();
-/**/
-                System.out.println("connection accepted, new data socket on port: " + dataSocket.getLocalPort());
+                MyStreamSocket myStreamSocket = new MyStreamSocket(dataSocket);
+                myStreamSocket.sendMessage(message);
+
+
+                /*System.out.println("connection accepted, new data socket on port: " + dataSocket.getLocalPort());
                 // get a output stream for writing to the data socket
                 OutputStream outStream = dataSocket.getOutputStream();
-				
+
                 // create a PrinterWriter object for character-mode output
                 PrintWriter socketOutput =
                         new PrintWriter(new OutputStreamWriter(outStream));
@@ -44,7 +50,7 @@ public class Example2Receiver {
                 //The ensuing flush method call is necessary for the data to
                 // be written to the socket data stream before the
                 // socket is closed.
-                socketOutput.flush();
+                socketOutput.flush();*/
 /**/
                 System.out.println("message sent");
                 dataSocket.close();
